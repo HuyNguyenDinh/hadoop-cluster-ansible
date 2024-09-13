@@ -1,0 +1,5 @@
+timezone: "UTC"
+packages:
+  - vim
+  - curl
+  - wget

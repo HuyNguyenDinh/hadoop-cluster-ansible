@@ -1,0 +1,8 @@
+- hosts: all
+  become: yes
+  roles:
+    - ansible_user
+    - common
+    - java
+    - hadoop
+    - hive

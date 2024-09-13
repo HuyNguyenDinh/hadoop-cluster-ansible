@@ -1,0 +1,36 @@
+- name: Ensure sudo group exists
+  ansible.builtin.group:
+    name: sudo
+    state: present
+
+- name: Create Ansible user
+  ansible.builtin.user:
+    name: "{{ ansible_user_name }}"
+    password: "{{ ansible_user_password }}"
+    groups: sudo
+    shell: /bin/bash
+    create_home: yes
+
+- name: Set up SSH directory
+  ansible.builtin.file:
+    path: "/home/{{ ansible_user_name }}/.ssh"
+    state: directory
+    owner: "{{ ansible_user_name }}"
+    group: "{{ ansible_user_name }}"
+    mode: '0700'
+
+- name: Copy Ansible user's public key
+  ansible.builtin.copy:
+    src: "{{ ansible_user_ssh_public_key }}"
+    dest: "/home/{{ ansible_user_name }}/.ssh/authorized_keys"
+    owner: "{{ ansible_user_name }}"
+    group: "{{ ansible_user_name }}"
+    mode: '0600'
+
+- name: Allow sudo without password for Ansible user
+  ansible.builtin.copy:
+    dest: "/etc/sudoers.d/{{ ansible_user_name }}"
+    content: "{{ ansible_user_name }} ALL=(ALL) NOPASSWD:ALL"
+    owner: root
+    group: root
+    mode: '0440'

@@ -1,0 +1,17 @@
+hadoop_version: "3.4.0"
+hadoop_download_url: "https://downloads.apache.org/hadoop/common/hadoop-{{ hadoop_version }}/hadoop-{{ hadoop_version }}.tar.gz"
+hadoop_install_dir: "/opt/hadoop"
+hadoop_conf_dir: "{{ hadoop_install_dir }}/etc/hadoop"
+hadoop_tmp_dir: "/var/hadoop/tmp"
+namenode_dir: "/var/hadoop/hdfs/namenode"
+datanode_dir: "/var/hadoop/hdfs/datanode"
+replication_factor: 2
+
+# Service users and group
+hadoop_group: "hadoop"
+hdfs_user: "hdfs"
+yarn_user: "yarn"
+mapred_user: "mapred"
+
+# Java version
+java_version: "17"

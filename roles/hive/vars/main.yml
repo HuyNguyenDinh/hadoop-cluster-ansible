@@ -1,0 +1,2 @@
+hive_user: "hive"
+hive_group: "hadoop"

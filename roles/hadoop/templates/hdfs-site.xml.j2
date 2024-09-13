@@ -1,0 +1,25 @@
+<configuration>
+    <!-- Namenode directory -->
+    <property>
+        <name>dfs.namenode.name.dir</name>
+        <value>file:{{ namenode_dir }}</value>
+    </property>
+
+    <!-- Datanode directory -->
+    <property>
+        <name>dfs.datanode.data.dir</name>
+        <value>file:{{ datanode_dir }}</value>
+    </property>
+
+    <!-- Default block replication -->
+    <property>
+        <name>dfs.replication</name>
+        <value>{{ replication_factor | default(3) }}</value>
+    </property>
+
+    <!-- Permissions enabled -->
+    <property>
+        <name>dfs.permissions</name>
+        <value>true</value>
+    </property>
+</configuration>

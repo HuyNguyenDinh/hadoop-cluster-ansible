@@ -1,0 +1,13 @@
+<configuration>
+    <!-- Default filesystem URI -->
+    <property>
+        <name>fs.defaultFS</name>
+        <value>hdfs://{{ groups['master'][0] }}:9000</value>
+    </property>
+
+    <!-- Hadoop temporary directory -->
+    <property>
+        <name>hadoop.tmp.dir</name>
+        <value>{{ hadoop_tmp_dir }}</value>
+    </property>
+</configuration>

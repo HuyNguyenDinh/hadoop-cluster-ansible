@@ -1,0 +1,15 @@
+# Set Hadoop-specific environment variables here.
+
+# The java implementation to use.
+export JAVA_HOME=/usr/lib/jvm/java-{{ java_version }}-openjdk-amd64
+
+# Hadoop service users
+export HDFS_NAMENODE_USER={{ hdfs_user }}
+export HDFS_DATANODE_USER={{ hdfs_user }}
+export HDFS_SECONDARYNAMENODE_USER={{ hdfs_user }}
+export YARN_RESOURCEMANAGER_USER={{ yarn_user }}
+export YARN_NODEMANAGER_USER={{ yarn_user }}
+export MAPRED_HISTORYSERVER_USER={{ mapred_user }}
+
+# Hadoop heap size
+export HADOOP_HEAPSIZE=1024
