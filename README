@@ -1,0 +1,13 @@
+Add id_rsa.pub to roles/ansible_user/files
+
+File hosts following by
+[master]
+master-node ansible_host=172.18.0.4
+
+[slaves]
+slave01 ansible_host=172.18.0.3
+slave02 ansible_host=172.18.0.5
+slave03 ansible_host=172.18.0.2
+
+[all:vars]
+ansible_python_interpreter=/usr/bin/python3
