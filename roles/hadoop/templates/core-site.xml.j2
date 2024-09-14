@@ -2,7 +2,7 @@
     <!-- Default filesystem URI -->
     <property>
         <name>fs.defaultFS</name>
-        <value>hdfs://{{ groups['master'][0] }}:9000</value>
+        <value>hdfs://{{ groups['master'][0]['ansible_host'] }}:9000</value>
     </property>
 
     <!-- Hadoop temporary directory -->

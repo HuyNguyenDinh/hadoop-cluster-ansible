@@ -29,13 +29,13 @@
 - name: Copy hive public key to slaves
   ansible.builtin.fetch:
     src: "/home/{{ hive_user }}/.ssh/id_rsa.pub"
-    dest: "tmp/hive_id_rsa.pub"
+    dest: "hive_id_rsa.pub"
     flat: yes
   when: inventory_hostname == groups['master'][0]
 
 - name: Distribute hive public key to all nodes
   ansible.builtin.copy:
-    src: "{{ hostvars[groups['master'][0]]['ansible_facts']['hostname'] }}/tmp/hive_id_rsa.pub"
+    src: "hive_id_rsa.pub"
     dest: "/home/{{ hive_user }}/.ssh/authorized_keys"
     owner: "{{ hive_user }}"
     group: "{{ hive_group }}"
@@ -44,9 +44,7 @@
 - name: Add all hosts to hive user's known_hosts
   ansible.builtin.known_hosts:
     path: "/home/{{ hive_user }}/.ssh/known_hosts"
-    name: "{{ item }}"
-    key: "{{ lookup('pipe', 'ssh-keyscan -H ' + item) }}"
-    owner: "{{ hive_user }}"
-    group: "{{ hive_group }}"
-    mode: '0644'
+    name: "{{ hostvars[item]['ansible_host'] }}"
+    key: "{{ lookup('pipe', 'ssh-keyscan -H -T 5 ' + hostvars[item]['ansible_host']) }}"
   with_items: "{{ groups['all'] }}"
+  become: yes

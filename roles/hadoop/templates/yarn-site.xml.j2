@@ -2,7 +2,7 @@
     <!-- ResourceManager hostname -->
     <property>
         <name>yarn.resourcemanager.hostname</name>
-        <value>{{ groups['master'][0] }}</value>
+        <value>{{ groups['master'][0]['ansible_host'] }}</value>
     </property>
 
     <!-- NodeManager auxiliary services -->
@@ -32,18 +32,18 @@
     <!-- ResourceManager address -->
     <property>
         <name>yarn.resourcemanager.address</name>
-        <value>{{ groups['master'][0] }}:8032</value>
+        <value>{{ groups['master'][0]['ansible_host']] }}:8032</value>
     </property>
 
     <!-- ResourceManager scheduler address -->
     <property>
         <name>yarn.resourcemanager.scheduler.address</name>
-        <value>{{ groups['master'][0] }}:8030</value>
+        <value>{{ groups['master'][0]['ansible_host'] }}:8030</value>
     </property>
 
     <!-- ResourceManager webapp address -->
     <property>
         <name>yarn.resourcemanager.webapp.address</name>
-        <value>{{ groups['master'][0] }}:8088</value>
+        <value>{{ groups['master'][0]['ansible_host'] }}:8088</value>
     </property>
 </configuration>
