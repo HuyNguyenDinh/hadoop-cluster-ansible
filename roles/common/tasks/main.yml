@@ -3,7 +3,7 @@
 
 - name: Set timezone
   community.general.timezone:
-    name: {{ timezone }}
+    name: "{{ timezone }}""
 
 - name: Install common packages
   ansible.builtin.package:
