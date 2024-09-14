@@ -133,7 +133,7 @@
   ansible.builtin.known_hosts:
     path: "/home/{{ yarn_user }}/.ssh/known_hosts"
     name: "{{ hostvars[item]['ansible_host'] }}"
-    key: "{{ lookup('pipe', 'ssh-keyscan -H -T 5 ' + hostvars[item]]['ansible_host']) }}"
+    key: "{{ lookup('pipe', 'ssh-keyscan -H -T 5 ' + hostvars[item]['ansible_host']) }}"
   with_items: "{{ groups['all'] }}"
   become: yes
 
