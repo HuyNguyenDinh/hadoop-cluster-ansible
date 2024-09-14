@@ -308,6 +308,7 @@
     path: "{{ item }}"
     owner: "{{ hdfs_user }}"
     group: "{{ hadoop_group }}"
+    state: directory
     recurse: yes
   loop:
     - "{{ hadoop_install_dir }}"
