@@ -2,10 +2,12 @@
 # tasks file for common role
 
 - name: Set timezone
+  become: yes
   community.general.timezone:
     name: "{{ timezone }}"
 
 - name: Install common packages
+  become: yes
   ansible.builtin.package:
     name: "{{ packages }}"
     state: present
