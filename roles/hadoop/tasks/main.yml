@@ -64,15 +64,30 @@
     group: "{{ hadoop_group }}"
     mode: '0600'
 
+
+- name: Ensure .ssh directory exists for hdfs user
+  ansible.builtin.file:
+    path: "/home/{{ hdfs_user }}/.ssh"
+    state: directory
+    owner: "{{ ansible_user_name }}"
+    group: "{{ ansible_user_name }}"
+    mode: '0700'
+
 - name: Add all hosts to hdfs user's known_hosts
   ansible.builtin.known_hosts:
     path: "/home/{{ hdfs_user }}/.ssh/known_hosts"
-    name: "{{ item }}"
-    key: "{{ lookup('pipe', 'ssh-keyscan -H {{ item }}') }}"
+    name: "{{ hostvars[item]['ansible_host'] }}"
+    key: "{{ lookup('pipe', 'ssh-keyscan -H -T 5 ' + hostvars[item]['ansible_host']) }}"
+  with_items: "{{ groups['all'] }}"
+  become: yes
+
+- name: Ensure .ssh directory exists for hdfs user
+  ansible.builtin.file:
+    path: "/home/{{ hdfs_user }}/.ssh"
+    state: directory
     owner: "{{ hdfs_user }}"
     group: "{{ hadoop_group }}"
-    mode: '0644'
-  with_items: "{{ groups['all'] }}"
+    mode: '0700'
 
 # 4. Generate SSH keys and distribute for yarn user
 - name: Generate SSH key for yarn user on master node
