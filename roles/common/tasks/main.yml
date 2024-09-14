@@ -11,3 +11,13 @@
   ansible.builtin.package:
     name: "{{ packages }}"
     state: present
+
+- name: Update /etc/hosts with all cluster nodes
+  ansible.builtin.lineinfile:
+    path: /etc/hosts
+    create: yes
+    state: present
+    line: "{{ hostvars[item]['ansible_host'] }} {{ hostvars[item]['inventory_hostname'] }}"
+  loop: "{{ groups['all'] }}"
+  when: item != inventory_hostname
+  become: yes
