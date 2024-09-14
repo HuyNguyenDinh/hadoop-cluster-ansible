@@ -12,11 +12,11 @@
     name: "{{ packages }}"
     state: present
 
-- name: Deploy /etc/hosts file
-  ansible.builtin.template:
-    src: hosts.j2
-    dest: /etc/hosts
-    owner: root
-    group: root
-    mode: '0644'
-  become: yes
+# - name: Deploy /etc/hosts file
+#   ansible.builtin.template:
+#     src: hosts.j2
+#     dest: /etc/hosts
+#     owner: root
+#     group: root
+#     mode: '0644'
+#   become: yes
