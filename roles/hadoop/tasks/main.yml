@@ -64,7 +64,6 @@
     group: "{{ hadoop_group }}"
     mode: '0600'
 
-
 - name: Ensure .ssh directory exists for hdfs user
   ansible.builtin.file:
     path: "/home/{{ hdfs_user }}/.ssh"
@@ -295,12 +294,12 @@
     state: directory
 
 # 9. Format Namenode (only on master)
-- name: Format Namenode (only on master)
-  ansible.builtin.command:
-    cmd: "{{ hadoop_install_dir }}/bin/hdfs namenode -format -force"
-  when: inventory_hostname == groups['master'][0]
-  become: yes
-  become_user: "{{ hdfs_user }}"
+# - name: Format Namenode (only on master)
+#   ansible.builtin.command:
+#     cmd: "{{ hadoop_install_dir }}/bin/hdfs namenode -format -force"
+#   when: inventory_hostname == groups['master'][0]
+#   become: yes
+#   become_user: "{{ hdfs_user }}"
 
 # 10. Adjust ownership for Hadoop directories
 - name: Set ownership for Hadoop directories
