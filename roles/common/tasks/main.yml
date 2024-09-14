@@ -1,10 +1,10 @@
 ---
 # tasks file for common role
 
-- name: Set timezone
-  become: yes
-  community.general.timezone:
-    name: "{{ timezone }}"
+# - name: Set timezone
+#   become: yes
+#   community.general.timezone:
+#     name: "{{ timezone }}"
 
 - name: Install common packages
   become: yes
