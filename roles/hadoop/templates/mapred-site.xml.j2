@@ -8,12 +8,12 @@
     <!-- Job history server address -->
     <property>
         <name>mapreduce.jobhistory.address</name>
-        <value>{{ groups['master'][0]['ansible_host'] }}:10020</value>
+        <value>{{ groups['master'][0] }}:10020</value>
     </property>
 
     <!-- Job history server web interface -->
     <property>
         <name>mapreduce.jobhistory.webapp.address</name>
-        <value>{{ groups['master'][0]['ansible_host'] }}:19888</value>
+        <value>{{ groups['master'][0] }}:19888</value>
     </property>
 </configuration>
