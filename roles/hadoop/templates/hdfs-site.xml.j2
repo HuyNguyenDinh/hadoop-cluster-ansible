@@ -11,6 +11,16 @@
         <value>file:{{ datanode_dir }}</value>
     </property>
 
+    <property>
+        <name>dfs.client.use.datanode.hostname</name>
+        <value>false</value>
+    </property>
+
+    <property>
+        <name>dfs.datanode.use.datanode.hostname</name>
+        <value>false</value>
+    </property>
+
     <!-- Default block replication -->
     <property>
         <name>dfs.replication</name>
