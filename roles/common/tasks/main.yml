@@ -12,11 +12,21 @@
     name: "{{ packages }}"
     state: present
 
-# - name: Deploy /etc/hosts file
-#   ansible.builtin.template:
-#     src: hosts.j2
-#     dest: /etc/hosts
-#     owner: root
-#     group: root
-#     mode: '0644'
+# - name: Add host entries to /etc/hosts
 #   become: yes
+#   blockinfile:
+#     path: /etc/hosts
+#     marker: "# BEGIN ANSIBLE MANAGED HOSTS BLOCK"
+#     block: |
+#       {% for item in groups['all'] %}
+#       {{ hostvars[item]['ansible_host'] }} {{ item }}
+#       {% endfor %}
+
+# - name: Add IP address of all hosts to all hosts
+#   lineinfile:
+#     dest: /etc/hosts
+#     regexp: '.*{{ item }}$'
+#     line: "{{ hostvars[item].ansible_host }} {{item}}"
+#     state: present
+#   when: hostvars[item].ansible_host is defined
+#   with_items: "{{ groups.all }}"

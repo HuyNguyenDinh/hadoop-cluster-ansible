@@ -1,0 +1,9 @@
+# tasks/mapreduce_setup.yml
+# Specific tasks related to MapReduce
+- name: Create MapReduce history directory
+  ansible.builtin.file:
+    path: "{{ hadoop_install_dir }}/history"
+    owner: "{{ mapred_user }}"
+    group: "{{ hadoop_group }}"
+    mode: '0755'
+    state: directory

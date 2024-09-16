@@ -1,0 +1,30 @@
+# tasks/hadoop_install.yml
+# 5. Download and install Hadoop
+- name: Download Hadoop tarball
+  ansible.builtin.get_url:
+    url: "{{ hadoop_download_url }}"
+    dest: "/tmp/hadoop-{{ hadoop_version }}.tar.gz"
+    mode: '0644'
+
+- name: Extract Hadoop tarball
+  ansible.builtin.unarchive:
+    src: "/tmp/hadoop-{{ hadoop_version }}.tar.gz"
+    dest: /opt/
+    remote_src: yes
+    creates: "/opt/hadoop-{{ hadoop_version }}"
+
+- name: Create symlink to Hadoop installation directory
+  ansible.builtin.file:
+    src: "/opt/hadoop-{{ hadoop_version }}"
+    dest: "{{ hadoop_install_dir }}"
+    state: link
+    force: yes
+
+- name: Change ownership of Hadoop installation directory
+  ansible.builtin.file:
+    path: "{{ hadoop_install_dir }}"
+    owner: "{{ hdfs_user }}"
+    group: "{{ hadoop_group }}"
+    mode: "0775"
+    recurse: yes
+    state: directory

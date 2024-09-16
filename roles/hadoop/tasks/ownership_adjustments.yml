@@ -1,0 +1,35 @@
+# tasks/ownership_adjustments.yml
+# 8. Ensure service users own their home directories
+- name: Ensure hdfs user owns their home directory
+  ansible.builtin.file:
+    path: "/home/{{ hdfs_user }}"
+    owner: "{{ hdfs_user }}"
+    group: "{{ hadoop_group }}"
+    state: directory
+
+- name: Ensure yarn user owns their home directory
+  ansible.builtin.file:
+    path: "/home/{{ yarn_user }}"
+    owner: "{{ yarn_user }}"
+    group: "{{ hadoop_group }}"
+    state: directory
+
+- name: Ensure mapred user owns their home directory
+  ansible.builtin.file:
+    path: "/home/{{ mapred_user }}"
+    owner: "{{ mapred_user }}"
+    group: "{{ hadoop_group }}"
+    state: directory
+
+# 10. Adjust ownership for Hadoop directories
+- name: Set ownership for Hadoop directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    owner: "{{ hdfs_user }}"
+    group: "{{ hadoop_group }}"
+    mode: "0775"
+    state: directory
+    recurse: yes
+  loop:
+    - "{{ hadoop_install_dir }}"
+    - "{{ hadoop_tmp_dir }}"

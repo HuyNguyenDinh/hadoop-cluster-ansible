@@ -1,0 +1,39 @@
+# tasks/directories_setup.yml
+# 7. Create necessary directories
+- name: Create Hadoop temporary directory
+  ansible.builtin.file:
+    path: "{{ hadoop_tmp_dir }}"
+    owner: "{{ hdfs_user }}"
+    group: "{{ hadoop_group }}"
+    mode: '0755'
+    state: directory
+
+- name: Create HDFS directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    owner: "{{ hdfs_user }}"
+    group: "{{ hadoop_group }}"
+    mode: '0755'
+    state: directory
+  loop:
+    - "{{ namenode_dir }}"
+    - "{{ datanode_dir }}"
+
+- name: Create YARN local and log directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    owner: "{{ yarn_user }}"
+    group: "{{ hadoop_group }}"
+    mode: '0755'
+    state: directory
+  loop:
+    - "/var/hadoop/yarn/local"
+    - "/var/hadoop/yarn/logs"
+
+- name: Create logs directory for Hadoop services
+  ansible.builtin.file:
+    path: "{{ hadoop_install_dir }}/logs"
+    owner: "{{ hdfs_user }}"
+    group: "{{ hadoop_group }}"
+    mode: '0775'
+    state: directory

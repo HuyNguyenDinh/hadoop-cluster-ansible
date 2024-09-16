@@ -1,0 +1,60 @@
+# tasks/hdfs_setup.yml
+# 3. Generate SSH keys and distribute for hdfs user
+- name: Generate SSH key for hdfs user on master node
+  ansible.builtin.user:
+    name: "{{ hdfs_user }}"
+    generate_ssh_key: yes
+    ssh_key_bits: 4096
+    ssh_key_type: rsa
+  when: inventory_hostname == groups['master'][0]
+
+- name: Fetch hdfs user's public key from master node
+  ansible.builtin.fetch:
+    src: "/home/{{ hdfs_user }}/.ssh/id_rsa.pub"
+    dest: "hdfs_id_rsa.pub"
+    flat: yes
+  when: inventory_hostname == groups['master'][0]
+
+- name: Create .ssh directory for hdfs user
+  ansible.builtin.file:
+    path: "/home/{{ hdfs_user }}/.ssh"
+    state: directory
+    owner: "{{ hdfs_user }}"
+    group: "{{ hadoop_group }}"
+    mode: '0700'
+
+- name: Distribute hdfs public key to authorized_keys
+  ansible.builtin.copy:
+    src: "hdfs_id_rsa.pub"
+    dest: "/home/{{ hdfs_user }}/.ssh/authorized_keys"
+    owner: "{{ hdfs_user }}"
+    group: "{{ hadoop_group }}"
+    mode: '0600'
+
+- name: Add all hosts to hdfs user's known_hosts
+  ansible.builtin.known_hosts:
+    path: "/home/{{ hdfs_user }}/.ssh/known_hosts"
+    name: "{{ hostvars[item]['ansible_host'] }}"
+    key: "{{ lookup('pipe', 'ssh-keyscan -H -T 5 ' + hostvars[item]['ansible_host']) }}"
+  with_items: "{{ groups['all'] }}"
+  become: yes
+
+- name: Ensure .ssh directory exists for hdfs user
+  ansible.builtin.file:
+    path: "/home/{{ hdfs_user }}/.ssh"
+    state: directory
+    owner: "{{ hdfs_user }}"
+    group: "{{ hadoop_group }}"
+    mode: '0700'
+
+- name: Set ownership for HDFS directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    owner: "{{ hdfs_user }}"
+    group: "{{ hadoop_group }}"
+    mode: "0755"
+    state: directory
+    recurse: yes
+  loop:
+    - "{{ namenode_dir }}"
+    - "{{ datanode_dir }}"

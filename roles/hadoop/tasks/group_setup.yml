@@ -1,0 +1,31 @@
+# tasks/group_setup.yml
+# 1. Create Hadoop group
+- name: Create Hadoop group
+  ansible.builtin.group:
+    name: "{{ hadoop_group }}"
+    state: present
+
+# 2. Create service users
+- name: Create HDFS user
+  ansible.builtin.user:
+    name: "{{ hdfs_user }}"
+    group: "{{ hadoop_group }}"
+    create_home: yes
+    shell: /bin/bash
+    state: present
+
+- name: Create YARN user
+  ansible.builtin.user:
+    name: "{{ yarn_user }}"
+    group: "{{ hadoop_group }}"
+    create_home: yes
+    shell: /bin/bash
+    state: present
+
+- name: Create MapReduce user
+  ansible.builtin.user:
+    name: "{{ mapred_user }}"
+    group: "{{ hadoop_group }}"
+    create_home: yes
+    shell: /bin/bash
+    state: present
