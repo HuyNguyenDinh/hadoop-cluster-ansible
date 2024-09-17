@@ -34,6 +34,16 @@
     group: "{{ hadoop_group }}"
     mode: '0600'
 
+- name: Update HADOOP_CONF_DIR in spark-env.sh
+  ansible.builtin.lineinfile:
+    path: "{{ spark_install_dir }}/conf/spark-env.sh"
+    line: "export HADOOP_CONF_DIR={{ hadoop_install_dir }}/etc/hadoop"
+    state: present
+    mode: '0775'
+    owner: "{{ hive_user }}"
+    group: "{{ hadoop_group }}"
+    create: yes
+
 - name: Update SPARK_DIST_CLASSPATH in spark-env.sh
   ansible.builtin.lineinfile:
     path: "{{ spark_install_dir }}/conf/spark-env.sh"

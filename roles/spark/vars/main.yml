@@ -11,3 +11,4 @@ delta_core_driver_url: "https://repo1.maven.org/maven2/io/delta/delta-core_2.12/
 delta_storage_driver_url: "https://repo1.maven.org/maven2/io/delta/delta-storage/2.3.0/delta-storage-2.3.0.jar"
 hive_warehouse_in_hdfs_dir: "/user/hive/warehouse"
 hive_metastore_warehouse_dir: "hdfs://node01:9000/user/hive/warehouse"
+hadoop_install_dir: "/opt/hadoop"
