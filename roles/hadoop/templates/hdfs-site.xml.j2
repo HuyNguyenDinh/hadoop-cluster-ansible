@@ -4,18 +4,13 @@
     <!-- Namenode directory -->
     <property>
         <name>dfs.namenode.name.dir</name>
-        <value>file:{{ namenode_dir }}</value>
+        <value>file://{{ namenode_dir }}</value>
     </property>
 
     <!-- Datanode directory -->
     <property>
         <name>dfs.datanode.data.dir</name>
-        <value>file:{{ datanode_dir }}</value>
-    </property>
-
-    <property>
-        <name>dfs.namenode.datanode.registration.ip-hostname-check</name>
-        <value>false</value>
+        <value>file://{{ datanode_dir }}</value>
     </property>
 
     <!-- Default block replication -->
