@@ -1,0 +1,90 @@
+- name: Download spark tarball
+  ansible.builtin.get_url:
+    url: "{{ spark_download_url }}"
+    dest: "/tmp/spark-{{ spark_version }}.tgz"
+    mode: '0644'
+
+- name: Extract spark tarball
+  ansible.builtin.unarchive:
+    src: "/tmp/spark-{{ spark_version }}.tgz"
+    dest: /opt/
+    remote_src: yes
+    creates: "/opt/spark-{{ spark_version }}"
+
+- name: Create symlink to spark installation directory
+  ansible.builtin.file:
+    src: "/opt/spark-{{ spark_version }}"
+    dest: "{{ spark_install_dir }}"
+    state: link
+    force: yes
+
+- name: Copy spark environment variables file
+  ansible.builtin.copy:
+    src: "{{ spark_install_dir }}/conf/spark-env.sh.template"
+    dest: "{{ spark_install_dir }}/conf/spark-env.sh"
+    owner: "{{ hive_user }}"
+    group: "{{ hadoop_group }}"
+    mode: "0775"
+
+- name: Copy startup Hive script
+  ansible.builtin.copy:
+    src: "hdfs_id_rsa.pub"
+    dest: "/home/{{ hdfs_user }}/.ssh/authorized_keys"
+    owner: "{{ hdfs_user }}"
+    group: "{{ hadoop_group }}"
+    mode: '0600'
+
+- name: Update SPARK_DIST_CLASSPATH in spark-env.sh
+  ansible.builtin.lineinfile:
+    path: "{{ spark_install_dir }}/conf/spark-env.sh"
+    line: 'export SPARK_DIST_CLASSPATH=$(hadoop classpath)'
+    state: present
+    mode: '0775'
+    owner: "{{ hive_user }}"
+    group: "{{ hadoop_group }}"
+    create: yes
+
+- name: Download DB driver
+  ansible.builtin.get_url:
+    url: "{{ hive_metastore_db_driver_url }}"
+    dest: "{{ spark_install_dir }}/jars"
+    mode: '0644'
+
+- name: Download Delta Core driver
+  ansible.builtin.get_url:
+    url: "{{ delta_core_driver_url }}"
+    dest: "{{ spark_install_dir }}/jars"
+    mode: '0644'
+
+- name: Download Delta Storage driver
+  ansible.builtin.get_url:
+    url: "{{ delta_storage_driver_url }}"
+    dest: "{{ spark_install_dir }}/jars"
+    mode: '0644'
+
+- name: Create custom start-thriftserver script
+  copy:
+    dest: "{{ spark_install_dir }}/sbin/start-hive.sh"
+    mode: '0755'
+    owner: "{{ spark_user }}"
+    group: "{{ spark_group }}"
+    content: |
+      #!/bin/bash
+      {{ spark_install_dir }}/sbin/start-thriftserver.sh --master yarn --deploy-mode client \
+        --driver-memory 4g \
+        --executor-memory 6g \
+        --executor-cores 4 \
+        --num-executors 2 \
+        --conf spark.sql.catalogImplementation=hive \
+        --conf spark.hadoop.datanucleus.schema.autoCreateTables=true \
+        --conf "spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension" \
+        --conf "spark.sql.catalog.spark_catalog=org.apache.spark.sql.delta.catalog.DeltaCatalog"
+
+- name: Change ownership of spark installation directory
+  ansible.builtin.file:
+    path: "{{ spark_install_dir }}"
+    owner: "{{ hive_user }}"
+    group: "{{ hadoop_group }}"
+    mode: "0775"
+    recurse: yes
+    state: directory

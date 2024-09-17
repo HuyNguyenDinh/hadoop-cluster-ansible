@@ -46,6 +46,7 @@
     owner: "{{ hdfs_user }}"
     group: "{{ hadoop_group }}"
     mode: '0700'
+    recurse: yes
 
 - name: Set ownership for HDFS directories
   ansible.builtin.file:
