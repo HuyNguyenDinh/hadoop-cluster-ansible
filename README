@@ -11,3 +11,17 @@ slave03 ansible_host=172.18.0.2
 
 [all:vars]
 ansible_python_interpreter=/usr/bin/python3
+
+-------------------------
+Hadoop manual config
+Step 1: Format namenode
+
+Step 2: su hdfs -> run start-dfs.sh
+
+Step 3: su yarn -> run start-yarn.sh
+
+--------------------------
+Spark manual config
+Step 1: su hive -> run hdfs dfs -mkdir -p /user/hive/warehouse (in roles/spark/vars/main.yml - hive_warehouse_in_hdfs_dir)
+
+Step 2: su hive -> run start-hive.sh
