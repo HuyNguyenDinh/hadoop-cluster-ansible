@@ -24,13 +24,13 @@
     group: "{{ hadoop_group }}"
     mode: '0644'
 
-- name: Configure mapred-site.xml
-  ansible.builtin.template:
-    src: mapred-site.xml.j2
-    dest: "{{ hadoop_conf_dir }}/mapred-site.xml"
-    owner: "{{ mapred_user }}"
-    group: "{{ hadoop_group }}"
-    mode: '0644'
+# - name: Configure mapred-site.xml
+#   ansible.builtin.template:
+#     src: mapred-site.xml.j2
+#     dest: "{{ hadoop_conf_dir }}/mapred-site.xml"
+#     owner: "{{ mapred_user }}"
+#     group: "{{ hadoop_group }}"
+#     mode: '0644'
 
 - name: Configure yarn-site.xml
   ansible.builtin.template:

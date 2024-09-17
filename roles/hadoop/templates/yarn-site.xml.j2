@@ -1,49 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
 <configuration>
-    <!-- ResourceManager hostname -->
     <property>
         <name>yarn.resourcemanager.hostname</name>
         <value>{{ groups['master'][0] }}</value>
     </property>
-
-    <!-- NodeManager auxiliary services -->
     <property>
-        <name>yarn.nodemanager.aux-services</name>
-        <value>mapreduce_shuffle</value>
+        <name>yarn.nodemanager.resource.memory-mb</name>
+        <value>-1</value>
     </property>
-
-    <!-- NodeManager local directories -->
     <property>
-        <name>yarn.nodemanager.local-dirs</name>
-        <value>/var/hadoop/yarn/local</value>
-    </property>
-
-    <!-- NodeManager log directories -->
-    <property>
-        <name>yarn.nodemanager.log-dirs</name>
-        <value>/var/hadoop/yarn/logs</value>
-    </property>
-
-    <!-- Enable NodeManager recovery -->
-    <property>
-        <name>yarn.nodemanager.recovery.enabled</name>
+        <name>yarn.nodemanager.resource.detect-hardware-capabilities</name>
         <value>true</value>
-    </property>
-
-    <!-- ResourceManager address -->
-    <property>
-        <name>yarn.resourcemanager.address</name>
-        <value>{{ groups['master'][0] }}:8032</value>
-    </property>
-
-    <!-- ResourceManager scheduler address -->
-    <property>
-        <name>yarn.resourcemanager.scheduler.address</name>
-        <value>{{ groups['master'][0] }}:8030</value>
-    </property>
-
-    <!-- ResourceManager webapp address -->
-    <property>
-        <name>yarn.resourcemanager.webapp.address</name>
-        <value>{{ groups['master'][0] }}:8088</value>
     </property>
 </configuration>
