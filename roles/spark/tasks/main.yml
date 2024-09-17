@@ -13,7 +13,7 @@
 
 - name: Create symlink to spark installation directory
   ansible.builtin.file:
-    src: "/opt/spark-{{ spark_version }}"
+    src: "/opt/spark-{{ spark_version }}-bin-hadoop3"
     dest: "{{ spark_install_dir }}"
     state: link
     force: yes
