@@ -53,7 +53,7 @@
     path: "{{ item }}"
     owner: "{{ hdfs_user }}"
     group: "{{ hadoop_group }}"
-    mode: "0755"
+    mode: "0775"
     state: directory
     recurse: yes
   loop:
