@@ -66,8 +66,8 @@
   copy:
     dest: "{{ spark_install_dir }}/sbin/start-hive.sh"
     mode: '0755'
-    owner: "{{ spark_user }}"
-    group: "{{ spark_group }}"
+    owner: "{{ hive_user }}"
+    group: "{{ hadoop_group }}"
     content: |
       #!/bin/bash
       {{ spark_install_dir }}/sbin/start-thriftserver.sh --master yarn --deploy-mode client \
