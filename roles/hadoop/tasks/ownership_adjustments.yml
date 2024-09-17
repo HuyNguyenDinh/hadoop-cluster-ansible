@@ -6,6 +6,7 @@
     owner: "{{ hdfs_user }}"
     group: "{{ hadoop_group }}"
     state: directory
+    recurse: yes
 
 - name: Ensure yarn user owns their home directory
   ansible.builtin.file:
@@ -13,6 +14,7 @@
     owner: "{{ yarn_user }}"
     group: "{{ hadoop_group }}"
     state: directory
+    recurse: yes
 
 - name: Ensure mapred user owns their home directory
   ansible.builtin.file:
@@ -20,6 +22,7 @@
     owner: "{{ mapred_user }}"
     group: "{{ hadoop_group }}"
     state: directory
+    recurse: yes
 
 # 10. Adjust ownership for Hadoop directories
 - name: Set ownership for Hadoop directories
