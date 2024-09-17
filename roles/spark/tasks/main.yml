@@ -62,6 +62,14 @@
     dest: "{{ spark_install_dir }}/jars"
     mode: '0644'
 
+- name: Configure hive-site.xml
+  ansible.builtin.template:
+    src: hive-site.xml.j2
+    dest: "{{ spark_install_dir }}/conf/hive-site.xml"
+    owner: "{{ hive_user }}"
+    group: "{{ hadoop_group }}"
+    mode: '0644'
+
 - name: Create custom start-thriftserver script
   copy:
     dest: "{{ spark_install_dir }}/sbin/start-hive.sh"
