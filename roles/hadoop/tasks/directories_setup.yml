@@ -5,7 +5,7 @@
     path: "{{ hadoop_tmp_dir }}"
     owner: "{{ hdfs_user }}"
     group: "{{ hadoop_group }}"
-    mode: '0755'
+    mode: '0775'
     state: directory
 
 - name: Create HDFS directories
@@ -13,7 +13,7 @@
     path: "{{ item }}"
     owner: "{{ hdfs_user }}"
     group: "{{ hadoop_group }}"
-    mode: '0755'
+    mode: '0775'
     state: directory
   loop:
     - "{{ namenode_dir }}"
