@@ -16,12 +16,18 @@ ansible_python_interpreter=/usr/bin/python3
 Hadoop manual config
 Step 1: Format namenode
 
-Step 2: su hdfs -> run start-dfs.sh
-
-Step 3: su yarn -> run start-yarn.sh
+Step 2: sudo su -> cd hadoop_dir/sbin -> run ./start-all.sh
 
 --------------------------
 Spark manual config
-Step 1: su hive -> run hdfs dfs -mkdir -p /user/hive/warehouse (in roles/spark/vars/main.yml - hive_warehouse_in_hdfs_dir)
+Step 1: cd to hadoop_dir/sbin
 
-Step 2: su hive -> run start-hive.sh
+Step 2: sudo -u hdfs ./hdfs dfs -mkdir -p /user/hive/warehouse (in roles/spark/vars/main.yml - hive_warehouse_in_hdfs_dir)
+
+Step 4: sudo -u hdfs ./hdfs dfs -chown -R hive:hadoop /user/hive (in roles/spark/vars/main.yml - hive_metastore_warehouse_dir)
+
+Step 3: sudo -u hdfs ./hdfs dfs -chmod -R 770 /user/hive
+
+Step 4: cd to spark_dir/sbin
+
+Step 5: su hive -> run start-hive.sh
