@@ -13,4 +13,8 @@
         <name>yarn.nodemanager.resource.detect-hardware-capabilities</name>
         <value>true</value>
     </property>
+    <property>
+        <name>yarn.scheduler.maximum-allocation-mb</name>
+        <value>{{ yarn_max_mb_per_request }}</value>
+    </property>
 </configuration>
