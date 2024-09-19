@@ -6,5 +6,4 @@
     - java
     - hadoop
     - hive
-    - role: spark
-      when: inventory_hostname == groups['master'][0]
+    - spark
