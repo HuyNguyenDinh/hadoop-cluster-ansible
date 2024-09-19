@@ -21,6 +21,7 @@
 - name: Copy spark environment variables file
   ansible.builtin.copy:
     src: "{{ spark_install_dir }}/conf/spark-env.sh.template"
+    remote_src: true
     dest: "{{ spark_install_dir }}/conf/spark-env.sh"
     owner: "{{ hive_user }}"
     group: "{{ hadoop_group }}"
@@ -47,7 +48,7 @@
 - name: Update SPARK_DIST_CLASSPATH in spark-env.sh
   ansible.builtin.lineinfile:
     path: "{{ spark_install_dir }}/conf/spark-env.sh"
-    line: 'export SPARK_DIST_CLASSPATH=$(hadoop classpath)'
+    line: 'export SPARK_DIST_CLASSPATH={{ hadoop_install_dir }}/bin/hadoop classpath}'
     state: present
     mode: '0775'
     owner: "{{ hive_user }}"

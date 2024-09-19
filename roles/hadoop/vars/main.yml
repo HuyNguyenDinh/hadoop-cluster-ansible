@@ -12,7 +12,7 @@ hadoop_group: "hadoop"
 hdfs_user: "hdfs"
 yarn_user: "yarn"
 mapred_user: "mapred"
-yarn_max_mb_per_request: 16384
+yarn_max_mb_per_request: 32768
 
 # Java version
 java_version: "11"

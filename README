@@ -1,5 +1,8 @@
 Add id_rsa.pub to roles/ansible_user/files
 
+Before running playbook:
+- I choose to setup postgres 14 on slave01 (if changed to another please change in roles/spark/vars/main.yml)
+
 File hosts following by
 [master]
 master-node ansible_host=172.18.0.4
