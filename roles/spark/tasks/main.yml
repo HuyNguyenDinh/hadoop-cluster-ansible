@@ -61,6 +61,46 @@
     dest: "{{ spark_install_dir }}/jars"
     mode: '0644'
 
+- name: Download MySQL JDBC driver
+  ansible.builtin.command:
+    cmd: "wget -O /tmp/{{ mysql_connector_filename }} {{ mysql_db_driver_url }}"
+  become: yes
+
+- name: Ensure MySQL JDBC destination directory exists
+  ansible.builtin.file:
+    path: /tmp/mysql-connector-java
+    state: directory
+    mode: '0755'
+
+- name: Extract MySQL JDBC driver
+  ansible.builtin.unarchive:
+    src: "/tmp/{{ mysql_connector_filename }}"
+    dest: /tmp/mysql-connector-java/
+    remote_src: yes
+
+- name: Find MySQL JDBC jar file
+  ansible.builtin.find:
+    paths: "/tmp/mysql-connector-java/{{ mysql_connector_filename | regex_replace('.tar.gz', '') }}"
+    patterns: "mysql-connector-java-*.jar"
+  register: jdbc_jar_file
+
+- name: Copy JDBC jar to Spark jars directory
+  ansible.builtin.copy:
+    src: "{{ jdbc_jar_file.files[0].path }}"
+    dest: "{{ spark_install_dir }}/jars/"
+    mode: '0644'
+    remote_src: yes
+
+- name: Clean up temporary MySQL files
+  ansible.builtin.file:
+    path: "/tmp/{{ mysql_connector_filename }}"
+    state: absent
+
+- name: Clean up temporary MySQL files
+  ansible.builtin.file:
+    path: /tmp/mysql-connector-java
+    state: absent
+
 - name: Download Delta Core driver
   ansible.builtin.get_url:
     url: "{{ delta_core_driver_url }}"
