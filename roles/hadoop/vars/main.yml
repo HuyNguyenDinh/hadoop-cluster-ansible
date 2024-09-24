@@ -5,7 +5,7 @@ hadoop_conf_dir: "{{ hadoop_install_dir }}/etc/hadoop"
 hadoop_tmp_dir: "/var/hadoop/tmp"
 namenode_dir: "/var/hadoop/hdfs/namenode"
 datanode_dir: "/var/hadoop/hdfs/datanode"
-replication_factor: 2
+replication_factor: 1
 
 # Service users and group
 hadoop_group: "hadoop"
