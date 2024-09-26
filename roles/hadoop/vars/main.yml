@@ -13,6 +13,7 @@ hdfs_user: "hdfs"
 yarn_user: "yarn"
 mapred_user: "mapred"
 yarn_max_mb_per_request: 32768
+proxy_user: "airflow"
 
 # Java version
 java_version: "11"

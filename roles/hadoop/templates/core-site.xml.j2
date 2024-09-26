@@ -12,4 +12,18 @@
         <name>hadoop.tmp.dir</name>
         <value>{{ hadoop_tmp_dir }}</value>
     </property>
+    <property>
+        <name>hadoop.proxyuser.{{ proxy_user }}.groups</name>
+        <value>*</value>
+    </property>
+
+    <property>
+        <name>hadoop.proxyuser.{{ proxy_user }}.users</name>
+        <value>*</value>
+    </property>
+
+    <property>
+        <name>hadoop.proxyuser.{{ proxy_user }}.hosts</name>
+        <value>*</value>
+    </property>
 </configuration>
